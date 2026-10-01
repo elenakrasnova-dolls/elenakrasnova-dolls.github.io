@@ -1,4 +1,4 @@
-"""Regenerate fully static RU/RO pages from the English homepage (stdlib only)."""
+"""Regenerate static Russian/RO pages from en/index.html (stdlib only)."""
 import json
 from html import escape
 from html.parser import HTMLParser
@@ -33,7 +33,8 @@ class Translator(HTMLParser):
             elif key in ('alt', 'aria-label') or (tag == 'meta' and values.get('name') == 'description' and key == 'content'):
                 value = self.translate(value)
             elif tag == 'link' and values.get('rel') == 'canonical' and key == 'href':
-                value = f'https://elenakrasnova-dolls.github.io/{self.language}/'
+                path = '' if self.language == 'ru' else f'{self.language}/'
+                value = f'https://elenakrasnova-dolls.github.io/{path}'
             elif key == 'aria-current' and values.get('hreflang'):
                 continue
             result.append(key if value is None else f'{key}="{escape(value, quote=True)}"')
@@ -61,7 +62,7 @@ class Translator(HTMLParser):
 
 
 if __name__ == '__main__':
-    source = (ROOT / 'index.html').read_text(encoding='utf-8')
+    source = (ROOT / 'en/index.html').read_text(encoding='utf-8')
     for language, column in [('ru', 1), ('ro', 2)]:
         parser = Translator(language, column)
         parser.feed(source)
@@ -69,4 +70,6 @@ if __name__ == '__main__':
         destination = ROOT / language / 'index.html'
         destination.parent.mkdir(exist_ok=True)
         destination.write_text(''.join(parser.output), encoding='utf-8')
+        if language == 'ru':
+            (ROOT / 'index.html').write_text(''.join(parser.output), encoding='utf-8')
         print(f'Generated {language}/index.html')

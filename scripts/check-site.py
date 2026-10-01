@@ -18,8 +18,8 @@ class Page(HTMLParser):
 
 
 generator = runpy.run_path(str(ROOT / 'scripts/build-languages.py'))
-english = (ROOT / 'index.html').read_text(encoding='utf-8')
-for lang, path, column in [('en', 'index.html', None), ('ru', 'ru/index.html', 1), ('ro', 'ro/index.html', 2)]:
+english = (ROOT / 'en/index.html').read_text(encoding='utf-8')
+for lang, path, column in [('ru', 'index.html', 1), ('en', 'en/index.html', None), ('ru', 'ru/index.html', 1), ('ro', 'ro/index.html', 2)]:
     source = (ROOT / path).read_text(encoding='utf-8')
     if column:
         translator = generator['Translator'](lang, column)
@@ -37,6 +37,7 @@ for lang, path, column in [('en', 'index.html', None), ('ru', 'ru/index.html', 1
     active = [a for a in links if a.get('aria-current') == 'page']
     assert len(active) == 1 and active[0]['hreflang'] == lang
     assert {a['hreflang'] for a in links if 'hreflang' in a} == {'en', 'ru', 'ro'}
+    assert {a['hreflang']: a['href'] for a in links if 'hreflang' in a} == {'ru': '/', 'ro': '/ro/', 'en': '/en/'}
     assert not any(t == 'script' for t, _ in page.elements)
     for tag, attrs in page.elements:
         if tag == 'img':

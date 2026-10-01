@@ -39,7 +39,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html favicon.svg .nojekyll _site/
-          cp -R assets images ru ro _site/
+          cp -R assets images en ru ro _site/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
