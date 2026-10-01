@@ -1,0 +1,11 @@
+/* Static-site accessibility and the updated contact design. */
+section[id] { scroll-margin-top: 120px; }
+a:focus-visible { outline: 3px solid #ce563c; outline-offset: 6px; }
+.contact a:focus-visible { outline-color: #fffaf1; }
+.contact-actions a { gap: 12px; min-height: 58px; box-shadow: 0 6px 18px #15284730; }
+.contact-actions svg { width: 23px; height: 23px; flex: 0 0 23px; }
+.contact-actions .contact-instagram { background: linear-gradient(120deg, #7138ac, #b52672 55%, #aa392b); border-color: #ffffff70; color: white; }
+.contact-actions .contact-facebook { background: #fffaf1; border-color: #fffaf1; color: #24549b; }
+.contact-actions a:hover { transform: translateY(-3px); box-shadow: 0 10px 24px #15284755; }
+.contact-email { overflow-wrap: anywhere; max-width: 100%; }
+@media (prefers-reduced-motion: reduce) { .contact-actions a:hover { transform: none; } }
