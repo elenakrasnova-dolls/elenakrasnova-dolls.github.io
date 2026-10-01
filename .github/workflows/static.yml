@@ -33,11 +33,13 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Validate translations and static links
+        run: python3 scripts/check-site.py
       - name: Stage static website
         run: |
           mkdir _site
           cp index.html favicon.svg .nojekyll _site/
-          cp -R assets images _site/
+          cp -R assets images ru ro _site/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
